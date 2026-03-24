@@ -1,24 +1,120 @@
 const presetThemes = [
   {
+    id: 'aurora',
     name: 'Aurora',
     background: '#0f172a',
     dots: '#38bdf8',
     corners: '#f97316',
     secondDots: '#22c55e',
+    cornersDot: '#f8fafc',
+    dotsType: 'rounded',
+    cornersSquareType: 'extra-rounded',
+    cornersDotType: 'dot',
+    gradientType: 'linear',
   },
   {
+    id: 'sunset',
     name: 'Sunset',
     background: '#1f102a',
     dots: '#f97316',
     corners: '#fb7185',
     secondDots: '#facc15',
+    cornersDot: '#fff7ed',
+    dotsType: 'classy-rounded',
+    cornersSquareType: 'dot',
+    cornersDotType: 'dot',
+    gradientType: 'radial',
   },
   {
+    id: 'mint',
     name: 'Mint',
     background: '#04130f',
     dots: '#2dd4bf',
     corners: '#a3e635',
     secondDots: '#f8fafc',
+    cornersDot: '#d9f99d',
+    dotsType: 'dots',
+    cornersSquareType: 'extra-rounded',
+    cornersDotType: 'dot',
+    gradientType: 'linear',
+  },
+  {
+    id: 'mono',
+    name: 'Mono',
+    background: '#0a0a0a',
+    dots: '#f5f5f5',
+    corners: '#737373',
+    secondDots: '#d4d4d4',
+    cornersDot: '#ffffff',
+    dotsType: 'square',
+    cornersSquareType: 'square',
+    cornersDotType: 'square',
+    gradientType: 'linear',
+  },
+  {
+    id: 'berry',
+    name: 'Berry',
+    background: '#180b26',
+    dots: '#c084fc',
+    corners: '#fb7185',
+    secondDots: '#60a5fa',
+    cornersDot: '#fde68a',
+    dotsType: 'extra-rounded',
+    cornersSquareType: 'dot',
+    cornersDotType: 'dot',
+    gradientType: 'radial',
+  },
+  {
+    id: 'sand',
+    name: 'Sand',
+    background: '#1c1917',
+    dots: '#f59e0b',
+    corners: '#fb923c',
+    secondDots: '#fef3c7',
+    cornersDot: '#fffbeb',
+    dotsType: 'classy',
+    cornersSquareType: 'extra-rounded',
+    cornersDotType: 'dot',
+    gradientType: 'linear',
+  },
+  {
+    id: 'corporate',
+    name: 'Corporate',
+    background: '#ffffff',
+    dots: '#0f172a',
+    corners: '#1d4ed8',
+    secondDots: '#334155',
+    cornersDot: '#1e293b',
+    dotsType: 'square',
+    cornersSquareType: 'square',
+    cornersDotType: 'square',
+    gradientType: 'linear',
+  },
+  {
+    id: 'minimal',
+    name: 'Minimal',
+    background: '#f8fafc',
+    dots: '#111827',
+    corners: '#111827',
+    secondDots: '#6b7280',
+    cornersDot: '#111827',
+    dotsType: 'rounded',
+    cornersSquareType: 'extra-rounded',
+    cornersDotType: 'dot',
+    gradientType: 'linear',
+  },
+  {
+    id: 'party',
+    name: 'Party',
+    background: '#14051f',
+    dots: '#f472b6',
+    corners: '#22d3ee',
+    secondDots: '#facc15',
+    cornersDot: '#ffffff',
+    dotsType: 'dots',
+    cornersSquareType: 'dot',
+    cornersDotType: 'dot',
+    gradientType: 'radial',
   },
 ];
 
@@ -28,6 +124,7 @@ const state = {
   margin: 10,
   logoImage: '',
   logoSize: 0.24,
+  gradientType: 'linear',
   dotsColor: '#38bdf8',
   secondDotsColor: '#22c55e',
   backgroundColor: '#0f172a',
@@ -41,12 +138,14 @@ const state = {
 const elements = {
   mount: document.querySelector('#qr-preview'),
   url: document.querySelector('#qr-url'),
+  stylePreset: document.querySelector('#style-preset'),
   dotsColor: document.querySelector('#dots-color'),
   secondDotsColor: document.querySelector('#second-dots-color'),
   backgroundColor: document.querySelector('#background-color'),
   cornersSquareColor: document.querySelector('#corners-square-color'),
   cornersDotColor: document.querySelector('#corners-dot-color'),
   dotsType: document.querySelector('#dots-type'),
+  gradientType: document.querySelector('#gradient-type'),
   cornersSquareType: document.querySelector('#corners-square-type'),
   cornersDotType: document.querySelector('#corners-dot-type'),
   size: document.querySelector('#qr-size'),
@@ -141,7 +240,7 @@ function getQrOptions() {
       color: state.dotsColor,
       type: state.dotsType,
       gradient: {
-        type: 'linear',
+        type: state.gradientType,
         rotation: Math.PI / 3,
         colorStops: [
           { offset: 0, color: state.dotsColor },
@@ -194,11 +293,22 @@ function applyTheme(theme) {
   state.dotsColor = theme.dots;
   state.secondDotsColor = theme.secondDots;
   state.cornersSquareColor = theme.corners;
+  state.cornersDotColor = theme.cornersDot;
+  state.dotsType = theme.dotsType;
+  state.cornersSquareType = theme.cornersSquareType;
+  state.cornersDotType = theme.cornersDotType;
+  state.gradientType = theme.gradientType;
 
   elements.backgroundColor.value = state.backgroundColor;
   elements.dotsColor.value = state.dotsColor;
   elements.secondDotsColor.value = state.secondDotsColor;
   elements.cornersSquareColor.value = state.cornersSquareColor;
+  elements.cornersDotColor.value = state.cornersDotColor;
+  elements.dotsType.value = state.dotsType;
+  elements.cornersSquareType.value = state.cornersSquareType;
+  elements.cornersDotType.value = state.cornersDotType;
+  elements.gradientType.value = state.gradientType;
+  elements.stylePreset.value = theme.id;
 
   renderQr();
 }
@@ -216,6 +326,10 @@ function initThemePills() {
 
 function bindEvents() {
   elements.url.addEventListener('input', (event) => setState('url', event.target.value));
+  elements.stylePreset.addEventListener('change', (event) => {
+    const selectedTheme = presetThemes.find((theme) => theme.id === event.target.value);
+    if (selectedTheme) applyTheme(selectedTheme);
+  });
   elements.dotsColor.addEventListener('input', (event) => setState('dotsColor', event.target.value));
   elements.secondDotsColor.addEventListener('input', (event) =>
     setState('secondDotsColor', event.target.value)
@@ -230,6 +344,9 @@ function bindEvents() {
     setState('cornersDotColor', event.target.value)
   );
   elements.dotsType.addEventListener('change', (event) => setState('dotsType', event.target.value));
+  elements.gradientType.addEventListener('change', (event) =>
+    setState('gradientType', event.target.value)
+  );
   elements.cornersSquareType.addEventListener('change', (event) =>
     setState('cornersSquareType', event.target.value)
   );
@@ -274,6 +391,7 @@ function init() {
   syncLabels();
   initThemePills();
   bindEvents();
+  applyTheme(presetThemes[0]);
   renderQr();
 }
 
