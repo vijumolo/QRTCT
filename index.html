@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QR Studio</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="hero-panel">
+        <div class="hero-copy">
+          <span class="eyebrow">QR Studio</span>
+          <h1>Convierte cualquier enlace en un QR con personalidad propia.</h1>
+          <p>
+            Pega tu URL, ajusta colores, formas y acabado visual, y descarga un QR listo
+            para compartir en redes, empaques o eventos.
+          </p>
+        </div>
+
+        <div class="theme-pills" id="theme-pills"></div>
+      </section>
+
+      <section class="workspace-grid">
+        <article class="control-card">
+          <div class="card-header">
+            <h2>Configuracion</h2>
+            <p>Afina el estilo visual y mira el resultado al instante.</p>
+          </div>
+
+          <label class="field">
+            <span>Enlace</span>
+            <input id="qr-url" type="url" placeholder="https://tusitio.com" value="https://openai.com" />
+          </label>
+
+          <div class="control-grid">
+            <label class="field">
+              <span>Color principal</span>
+              <input id="dots-color" type="color" value="#38bdf8" />
+            </label>
+
+            <label class="field">
+              <span>Color secundario</span>
+              <input id="second-dots-color" type="color" value="#22c55e" />
+            </label>
+
+            <label class="field">
+              <span>Fondo</span>
+              <input id="background-color" type="color" value="#0f172a" />
+            </label>
+
+            <label class="field">
+              <span>Esquinas</span>
+              <input id="corners-square-color" type="color" value="#f97316" />
+            </label>
+          </div>
+
+          <div class="control-grid">
+            <label class="field">
+              <span>Punto central esquina</span>
+              <input id="corners-dot-color" type="color" value="#f8fafc" />
+            </label>
+
+            <label class="field">
+              <span>Forma de puntos</span>
+              <select id="dots-type">
+                <option value="rounded">Rounded</option>
+                <option value="dots">Dots</option>
+                <option value="classy">Classy</option>
+                <option value="classy-rounded">Classy Rounded</option>
+                <option value="square">Square</option>
+                <option value="extra-rounded">Extra Rounded</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span>Marco de esquinas</span>
+              <select id="corners-square-type">
+                <option value="square">Square</option>
+                <option value="extra-rounded" selected>Extra Rounded</option>
+                <option value="dot">Dot</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span>Punto de esquina</span>
+              <select id="corners-dot-type">
+                <option value="square">Square</option>
+                <option value="dot" selected>Dot</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="slider-group">
+            <label class="field">
+              <span>Tamano: <strong id="size-value">320px</strong></span>
+              <input id="qr-size" type="range" min="220" max="420" step="10" value="320" />
+            </label>
+
+            <label class="field">
+              <span>Margen: <strong id="margin-value">10px</strong></span>
+              <input id="qr-margin" type="range" min="0" max="30" step="1" value="10" />
+            </label>
+
+            <label class="field">
+              <span>Logo dentro del QR</span>
+              <input id="logo-file" type="file" accept="image/png,image/jpeg,image/svg+xml,image/webp" />
+            </label>
+
+            <label class="field">
+              <span>Tamano del logo: <strong id="logo-size-value">24%</strong></span>
+              <input id="logo-size" type="range" min="10" max="35" step="1" value="24" />
+            </label>
+
+            <div class="logo-actions">
+              <button type="button" class="secondary-btn" id="clear-logo">Quitar logo</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="preview-card">
+          <div class="card-header">
+            <h2>Vista previa</h2>
+            <p>Tu codigo QR se actualiza en tiempo real.</p>
+          </div>
+
+          <div class="preview-stage">
+            <div class="preview-frame" id="qr-preview"></div>
+          </div>
+
+          <div class="action-row">
+            <button type="button" class="primary-btn" id="download-png">Descargar PNG</button>
+            <button type="button" class="secondary-btn" id="download-svg">Descargar SVG</button>
+          </div>
+        </article>
+      </section>
+    </main>
+    <script src="https://unpkg.com/qr-code-styling@1.9.2/lib/qr-code-styling.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
